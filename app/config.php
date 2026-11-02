@@ -26,6 +26,7 @@ return [
     ],
     'maps_query' => 'Servicios de Autotransporte Mochcun, Cancún, Quintana Roo',
     'facebook'   => 'https://www.facebook.com/verificadora.emisiones.fisico.mecanica.cancun/',
+    'instagram'  => 'https://www.instagram.com/verificentromochcun/',
 
     // Analítica (los mismos identificadores del sitio anterior)
     'gtm_id' => 'GTM-MNFQFQ7',

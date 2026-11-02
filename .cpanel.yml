@@ -2,6 +2,7 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/mochcun/public_html/new.mochcun.com/
-    - /bin/rsync -a --exclude='.git' --exclude='.cpanel.yml' --exclude='.gitignore' --exclude='README.md' --exclude='tools/' --exclude='storage/*.sqlite*' --exclude='storage/secret.key' --exclude='uploads/blog/*/' ./ $DEPLOYPATH
+    - /bin/rsync -rlt --chmod=Du=rwx,Dgo=rx,Fu=rw,Fgo=r --exclude='.git' --exclude='.cpanel.yml' --exclude='.gitignore' --exclude='README.md' --exclude='tools/' --exclude='storage/*.sqlite*' --exclude='storage/secret.key' --exclude='uploads/blog/*/' ./ $DEPLOYPATH
+    - /bin/chmod 755 $DEPLOYPATH
     - /bin/mkdir -p ${DEPLOYPATH}storage ${DEPLOYPATH}uploads/blog
     - /bin/chmod 755 ${DEPLOYPATH}storage ${DEPLOYPATH}uploads ${DEPLOYPATH}uploads/blog

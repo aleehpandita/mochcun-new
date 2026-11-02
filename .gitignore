@@ -1,0 +1,10 @@
+# Datos y archivos que viven solo en el servidor
+/storage/*
+!/storage/.htaccess
+/uploads/blog/*
+!/uploads/blog/.gitkeep
+/documentos/*.pdf
+/images/
+error_log
+.DS_Store
+.idea/

@@ -1,0 +1,145 @@
+# ============================================================
+#  mochcun.com — reglas del sitio
+#  Las URLs son las mismas del sitio anterior (/pagina/). No cambiarlas sin redirección 301.
+# ============================================================
+
+Options -Indexes
+DirectoryIndex index.php
+ErrorDocument 404 /404.php
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+# --- 1. Un solo dominio: https://mochcun.com (sin www) ---
+# La validación de certificados SSL (AutoSSL) debe seguir funcionando por http.
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{REQUEST_URI} !^/\.well-known/
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L,NE]
+
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{REQUEST_URI} !^/\.well-known/
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,NE]
+
+# --- 2. Carpetas internas: no accesibles desde la web ---
+RewriteRule ^(app|storage|tools)(/|$) - [F,L]
+RewriteRule ^(\.git|\.github)(/|$) - [F,L]
+RewriteRule ^(README\.md|composer\.(json|lock)|\.gitignore)$ - [F,L]
+
+# --- 3. Páginas que se eliminaron: 301 a la página más cercana ---
+RewriteRule ^covid-19(\.php|/)?$ /faqs/ [R=301,L]
+RewriteRule ^registro(\.php|/)?$ /contacto/ [R=301,L]
+RewriteRule ^submit\.php$ /contacto/ [R=301,L]
+RewriteRule ^index\ -\ copia\.php$ / [R=301,L]
+RewriteRule ^inc/ - [G,L]
+RewriteRule ^images/favicon\.ico$ /favicon.ico [R=301,L]
+
+# --- 4. /index.php y /pagina.php → URL limpia con diagonal final (la que ya indexó Google) ---
+RewriteCond %{THE_REQUEST} \s/+index\.php[\s?] [NC]
+RewriteRule ^index\.php$ / [R=301,L]
+RewriteCond %{THE_REQUEST} \s/+[a-z0-9-]+\.php[\s?] [NC]
+RewriteCond %{DOCUMENT_ROOT}/$1.php -f
+RewriteCond $1 !^(404|sitemap|index)$
+RewriteRule ^([a-z0-9-]+)\.php$ /$1/ [R=301,L]
+
+# --- 5. Sitemap, feed y blog ---
+RewriteRule ^sitemap\.xml$ sitemap.php [L]
+RewriteRule ^blog/feed/?$ blog/feed.php [L]
+RewriteRule ^blog/categoria/([a-z0-9-]+)/?$ blog/index.php?categoria=$1 [L,QSA]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^blog/([a-z0-9-]+)/?$ blog/articulo.php?slug=$1 [L,QSA]
+
+# --- 6. Sin diagonal final → con diagonal (una sola versión de cada página) ---
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{DOCUMENT_ROOT}/$1.php -f
+RewriteRule ^([a-z0-9-]+)$ /$1/ [R=301,L]
+
+# --- 7. /pagina/ → pagina.php (interno) ---
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}/$1.php -f
+RewriteRule ^([a-z0-9-]+)/$ $1.php [L]
+</IfModule>
+
+# --- Seguridad básica ---
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+</IfModule>
+<FilesMatch "\.(sqlite|sqlite-wal|sqlite-shm|key|log|ini|md|lock|sh)$">
+  Require all denied
+</FilesMatch>
+
+# --- Velocidad: compresión y caché ---
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css application/javascript text/javascript application/json image/svg+xml application/xml text/xml application/rss+xml application/manifest+json
+</IfModule>
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 hour"
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 month"
+  ExpiresByType application/pdf "access plus 1 month"
+</IfModule>
+<IfModule mod_headers.c>
+  <FilesMatch "\.(woff2|webp|jpg|jpeg|png|svg|css|js)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>
+AddType font/woff2 .woff2
+AddType image/webp .webp
+AddType application/manifest+json .webmanifest
+
+# ------------------------------------------------------------
+# Bloques de cPanel copiados tal cual del servidor actual (versión de PHP).
+# Si cambias la versión de PHP en "MultiPHP Manager", cPanel los reescribe.
+# ------------------------------------------------------------
+
+# BEGIN cPanel-generated php ini directives, do not edit
+# Manual editing of this file may result in unexpected behavior.
+# To make changes to this file, use the cPanel MultiPHP INI Editor (Home >> Software >> MultiPHP INI Editor)
+# For more information, read our documentation (https://go.cpanel.net/EA4ModifyINI)
+<IfModule php8_module>
+   php_flag display_errors On
+   php_value max_execution_time 30
+   php_value max_input_time 60
+   php_value max_input_vars 10000
+   php_value memory_limit 128M
+   php_value post_max_size 64M
+   php_value session.gc_maxlifetime 1440
+   php_value session.save_path "/var/cpanel/php/sessions/ea-php80"
+   php_value upload_max_filesize 32M
+   php_flag zlib.output_compression Off
+</IfModule>
+<IfModule lsapi_module>
+   php_flag display_errors On
+   php_value max_execution_time 30
+   php_value max_input_time 60
+   php_value max_input_vars 10000
+   php_value memory_limit 128M
+   php_value post_max_size 64M
+   php_value session.gc_maxlifetime 1440
+   php_value session.save_path "/var/cpanel/php/sessions/ea-php80"
+   php_value upload_max_filesize 32M
+   php_flag zlib.output_compression Off
+</IfModule>
+# END cPanel-generated php ini directives, do not edit
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php81” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php81 .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit

@@ -1,0 +1,7 @@
+# Panel: nunca indexar; los archivos internos (_*.php) no se abren directo
+<IfModule mod_headers.c>
+  Header set X-Robots-Tag "noindex, nofollow"
+</IfModule>
+<FilesMatch "^_">
+  Require all denied
+</FilesMatch>

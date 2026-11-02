@@ -32,7 +32,7 @@ if (!$hasUsers) {
     admin_head('Configuración inicial');
     ?>
   <div class="a-auth">
-    <img src="/assets/img/logo-mochcun.svg" alt="MOCHCUN" width="190" height="72">
+    <?= logo_img(90) ?>
     <h1>Crea la cuenta de administrador</h1>
     <p class="a-muted">Esto solo aparece la primera vez. Después podrás agregar más usuarios.</p>
     <?php if ($error): ?><p class="a-alert a-alert-err"><?= e($error) ?></p><?php endif; ?>
@@ -66,7 +66,7 @@ if (!$user) {
     admin_head('Entrar');
     ?>
   <div class="a-auth">
-    <img src="/assets/img/logo-mochcun.svg" alt="MOCHCUN" width="190" height="72">
+    <?= logo_img(90) ?>
     <h1>Panel del blog</h1>
     <?php if ($error): ?><p class="a-alert a-alert-err"><?= e($error) ?></p><?php endif; ?>
     <form method="post" class="a-form">

@@ -79,7 +79,7 @@ addEventListener('load',function(){setTimeout(load,2500);});})();
 </div>
 <header class="site-header">
   <div class="wrap header-in">
-    <a class="brand" href="/" aria-label="MOCHCUN, ir al inicio"><img src="/assets/img/logo-mochcun.svg" width="222" height="84" alt="Servicios de Autotransporte MOCHCUN"></a>
+    <a class="brand" href="/" aria-label="MOCHCUN, ir al inicio"><?= logo_img(70) ?></a>
     <nav class="nav" id="menu" aria-label="Principal">
       <button type="button" class="menu-toggle nav-close" data-menu-close aria-label="Cerrar menú"><?= icon('close', 24) ?></button>
       <ul class="nav-list">
@@ -124,7 +124,7 @@ function page_end(array $p = []): void
 <footer class="footer">
   <div class="wrap footer-grid">
     <div class="footer-brand">
-      <img src="/assets/img/logo-mochcun-blanco.svg" width="222" height="84" alt="Servicios de Autotransporte MOCHCUN" loading="lazy">
+      <?= logo_img(84, 'blanco', '', true) ?>
       <p>Unidad de verificación tipo “C” en operación desde octubre de 2008, acreditada por la Entidad Mexicana de Acreditación (EMA) y aprobada por la SICT.</p>
     </div>
     <div>
@@ -155,6 +155,7 @@ function page_end(array $p = []): void
         <li><a href="/blog/">Blog</a></li>
         <li><a href="/contacto/">Contacto</a></li>
         <li><a href="<?= e(config('facebook')) ?>" target="_blank" rel="noopener">Facebook</a></li>
+        <li><a href="<?= e(config('instagram')) ?>" target="_blank" rel="noopener">Instagram</a></li>
       </ul>
     </div>
   </div>

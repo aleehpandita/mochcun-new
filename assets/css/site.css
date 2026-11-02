@@ -64,7 +64,7 @@ button{font:inherit}
 .site-header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40}
 .header-in{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:84px}
 .brand{display:block;flex-shrink:0}
-.brand img{width:188px;height:auto}
+.brand img{height:70px;width:auto}
 .nav-list{list-style:none;display:flex;align-items:center;gap:4px}
 .nav-list>li{position:relative}
 .nav-link,.nav-btn{display:flex;align-items:center;gap:4px;padding:10px 9px;white-space:nowrap;min-height:44px;color:var(--ink);text-decoration:none;font-weight:600;font-size:15px;background:none;border:0;cursor:pointer;border-bottom:2px solid transparent}
@@ -345,7 +345,7 @@ button{font:inherit}
 .footer a{color:#CFCFCF;text-decoration:none}
 .footer a:hover{color:#fff}
 .footer-brand{display:flex;flex-direction:column;gap:18px}
-.footer-brand img{width:188px}
+.footer-brand img{height:84px;width:auto}
 .footer-bottom{margin-top:56px;border-top:1px solid var(--dark-line);padding-top:22px;padding-bottom:22px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:13px;color:#A8A8A8}
 
 /* WhatsApp flotante */
@@ -376,7 +376,7 @@ button{font:inherit}
   .page-hero p{font-size:17px}
   .card-dark .card-body{padding:24px}
   .card-dark h3{font-size:25px}
-  .brand img{width:160px}
+  .brand img{height:56px}
   .header-in{min-height:72px}
   .article-body{font-size:17px}
   .price{font-size:38px}

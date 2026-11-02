@@ -56,6 +56,7 @@ page_hero('Contacto', '¿Tienes alguna duda? ¿Quieres proponernos un tema? Cual
         <div class="info-row"><?= icon('clock', 22) ?><div><strong>Horario</strong><span><?= e(config('hours_display')) ?></span></div></div>
         <div class="info-row"><?= icon('pin', 22) ?><div><strong>Dirección</strong><span><?= e($a['street']) ?>, C.P. <?= e($a['postal']) ?>, <?= e($a['city']) ?>, Q. Roo</span></div></div>
         <div class="info-row"><?= icon('facebook', 22) ?><div><strong>Facebook</strong><a href="<?= e(config('facebook')) ?>" target="_blank" rel="noopener">Verificadora MOCHCUN</a></div></div>
+        <div class="info-row"><?= icon('instagram', 22) ?><div><strong>Instagram</strong><a href="<?= e(config('instagram')) ?>" target="_blank" rel="noopener">@verificentromochcun</a></div></div>
       </div>
     </aside>
   </div>

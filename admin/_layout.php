@@ -26,7 +26,7 @@ function admin_head(string $title, ?array $user = null, string $extraHead = ''):
 <body>
 <?php if ($user): ?>
 <header class="a-top">
-  <a class="a-brand" href="/admin/"><img src="/assets/img/logo-mochcun-blanco.svg" alt="MOCHCUN" width="120" height="45"><span>Panel</span></a>
+  <a class="a-brand" href="/admin/"><?= logo_img(44, 'blanco') ?><span>Panel</span></a>
   <nav class="a-nav" aria-label="Panel">
     <a href="/admin/"<?= $cur === 'index.php' ? ' aria-current="page"' : '' ?>>Artículos</a>
     <a href="/admin/articulo.php"<?= $cur === 'articulo.php' && empty($_GET['id']) ? ' aria-current="page"' : '' ?>>Nuevo artículo</a>

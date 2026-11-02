@@ -43,7 +43,7 @@ function schema_business(): array
             'contactType' => 'customer service',
             'availableLanguage' => 'es',
         ]],
-        'sameAs' => [config('facebook')],
+        'sameAs' => [config('facebook'), config('instagram')],
         'hasOfferCatalog' => [
             '@type' => 'OfferCatalog',
             'name' => 'Servicios',

@@ -11,6 +11,8 @@ img{max-width:100%;display:block}
 .a-muted{color:var(--muted);margin:4px 0 0}
 .a-top{background:var(--ink);color:#fff;display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;padding:10px 24px}
 .a-brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-weight:700}
+.a-brand img{height:44px;width:auto}
+.a-auth picture{align-self:center}
 .a-brand span{border-left:1px solid #444;padding-left:10px;color:#ccc;font-weight:500}
 .a-nav{display:flex;flex-wrap:wrap;gap:4px;flex:1}
 .a-nav a{color:#ddd;text-decoration:none;padding:10px 12px;font-weight:600;border-bottom:2px solid transparent}

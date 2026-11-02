@@ -27,7 +27,7 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,NE]
 # --- 2. Carpetas internas: no accesibles desde la web ---
 RewriteRule ^(app|storage|tools)(/|$) - [F,L]
 RewriteRule ^(\.git|\.github)(/|$) - [F,L]
-RewriteRule ^(README\.md|composer\.(json|lock)|\.gitignore)$ - [F,L]
+RewriteRule ^(README\.md|composer\.(json|lock)|\.gitignore|\.cpanel\.yml)$ - [F,L]
 
 # --- 3. Páginas que se eliminaron: 301 a la página más cercana ---
 RewriteRule ^covid-19(\.php|/)?$ /faqs/ [R=301,L]

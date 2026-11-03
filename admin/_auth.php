@@ -11,6 +11,20 @@ function admin_session(): void
         return;
     }
     $https = (($_SERVER['HTTPS'] ?? '') !== '' && $_SERVER['HTTPS'] !== 'off') || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
+    // Sesiones en una carpeta propia (storage/sessions, bloqueada a la web).
+    // El servidor apuntaba session.save_path a la carpeta de PHP 8.0 mientras el sitio corre en 8.1,
+    // y la sesión no se guardaba ("La sesión expiró").
+    $dir = ROOT . '/storage/sessions';
+    if (!is_dir($dir)) {
+        @mkdir($dir, 0700, true);
+    }
+    if (is_dir($dir) && is_writable($dir)) {
+        session_save_path($dir);
+        ini_set('session.gc_probability', '1');
+        ini_set('session.gc_divisor', '100');
+        ini_set('session.gc_maxlifetime', (string) (60 * 60 * 8));
+    }
+    ini_set('session.use_strict_mode', '1');
     session_name('mochcun_admin');
     session_set_cookie_params([
         'lifetime' => 0,

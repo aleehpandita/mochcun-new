@@ -137,3 +137,11 @@ function flash(?string $msg = null, string $type = 'ok'): ?array
     unset($_SESSION['flash']);
     return $f;
 }
+
+// Páginas del panel: abrir la sesión ANTES de imprimir HTML.
+// En el servidor output_buffering está apagado; si la sesión se abre después de mostrar
+// la página, PHP ya no puede mandar la cookie y el panel responde "La sesión expiró".
+if (PHP_SAPI !== 'cli' && basename(dirname((string) ($_SERVER['SCRIPT_FILENAME'] ?? ''))) === 'admin') {
+    ob_start();
+    admin_session();
+}

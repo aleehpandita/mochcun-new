@@ -32,25 +32,21 @@ page_hero('Centro de capacitación', 'Comprometidos con la seguridad de los oper
         <div class="panel panel-red">
           <h3>Requisitos de obtención</h3>
           <ul class="checks">
-            <li>Identificación oficial (INE, pasaporte o cartilla militar).</li>
+            <li>Identificación oficial (INE o pasaporte).</li>
             <li>Comprobante de domicilio (3 meses de antigüedad).</li>
-            <li>Licencia de conducir (mínimo 2 años).</li>
-            <li>Comprobante de estudios (nuevo ingreso).</li>
             <li>CURP.</li>
             <li>Acta de nacimiento.</li>
-            <li>3 fotografías tamaño credencial.</li>
           </ul>
         </div>
         <div class="panel panel-red">
           <h3>Requisitos de renovación</h3>
           <ul class="checks">
-            <li>Identificación oficial (INE, pasaporte o cartilla militar).</li>
+            <li>Identificación oficial (INE o pasaporte).</li>
             <li>Comprobante de domicilio (3 meses de antigüedad).</li>
-            <li>Licencia federal.</li>
+            <li>Licencia federal anterior.</li>
             <li>Constancia anterior.</li>
             <li>CURP.</li>
             <li>Acta de nacimiento.</li>
-            <li>3 fotografías tamaño credencial.</li>
           </ul>
         </div>
       </div>

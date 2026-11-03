@@ -20,16 +20,14 @@ page_hero('Medicina preventiva', 'Exámenes para operadores del autotransporte f
         <h2>Unidad de medicina preventiva</h2>
         <ul class="checks">
           <li>Examen psicofísico integral (necesario para el trámite o refrendo de la licencia federal).</li>
-          <li>Examen toxicológico.</li>
-          <li>Examen de alcoholimetría.</li>
         </ul>
       </div>
       <div class="panel panel-red">
         <h3>Requisitos</h3>
         <ul class="checks">
-          <li>Identificación oficial (INE, pasaporte o cartilla militar).</li>
+          <li>Identificación oficial (INE o pasaporte).</li>
           <li>Comprobante de domicilio (3 meses de antigüedad).</li>
-          <li>Licencia de conducir.</li>
+          <li>Situación fiscal (RFC)</li>
           <li>CURP.</li>
           <li>Acta de nacimiento.</li>
         </ul>

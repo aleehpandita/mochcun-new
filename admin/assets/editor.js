@@ -15,15 +15,81 @@
           ['bold', 'italic', 'underline'],
           [{ list: 'ordered' }, { list: 'bullet' }],
           ['blockquote', 'link', 'image'],
-          ['clean']
+          ['reflow', 'clean']
         ],
-        handlers: { image: pickImage }
+        handlers: { image: pickImage, reflow: reflowSelection }
       }
     }
   });
   // Etiquetas en español para la barra
   var picker = document.querySelector('.ql-header .ql-picker-label');
   if (picker) picker.setAttribute('aria-label', 'Tipo de texto');
+
+  var reflowBtn = document.querySelector('.ql-reflow');
+  if (reflowBtn) {
+    reflowBtn.textContent = 'Unir renglones';
+    reflowBtn.title = 'Une en párrafos el texto que quedó cortado renglón por renglón (por ejemplo, copiado de un PDF). Selecciona el texto primero.';
+    reflowBtn.classList.add('ql-reflow-text');
+  }
+
+  /* ---------- Texto pegado desde PDF: un salto de línea por renglón ---------- */
+  var END = /[.:!?…»"”)]$/;
+  function esc(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  function isListLine(l) { return /^([-–•·*▪●]|\d{1,2}[.)])\s+/.test(l); }
+  // Convierte texto con saltos por renglón en párrafos HTML.
+  // Las líneas cortas sin punto final que inician bloque (títulos) quedan como párrafo propio.
+  function reflowText(text) {
+    var lines = text.replace(/\r\n?/g, '\n').replace(/\u00A0/g, ' ').split('\n').map(function (l) { return l.replace(/\s+/g, ' ').trim(); });
+    var paras = [], buf = '';
+    function flush() { if (buf) { paras.push(buf); buf = ''; } }
+    for (var i = 0; i < lines.length; i++) {
+      var l = lines[i];
+      if (!l) { flush(); continue; }
+      if (isListLine(l)) { flush(); paras.push(l); continue; }
+      var startsBlock = !buf;
+      var next = lines[i + 1] || '';
+      var looksTitle = startsBlock && !END.test(l) && l.length <= 100 && /^[A-ZÁÉÍÓÚÑ¿¡0-9]/.test(next) && !/,$/.test(l);
+      if (looksTitle) { paras.push(l); continue; }
+      if (!buf) { buf = l; }
+      else if (/[A-Za-zÁÉÍÓÚáéíóúñÑ]-$/.test(buf)) { buf += l; }          // palabra-cortada
+      else { buf += ' ' + l; }
+      if (END.test(l) && /^[A-ZÁÉÍÓÚÑ¿¡]/.test(next)) { flush(); }       // fin de párrafo
+    }
+    flush();
+    return paras.map(function (p) { return '<p>' + esc(p) + '</p>'; }).join('');
+  }
+  // ¿Parece texto cortado por renglones? (muchas líneas que no terminan en punto)
+  function looksWrapped(text) {
+    var ls = text.split(/\r?\n/).filter(function (l) { return l.trim(); });
+    if (ls.length < 4) return false;
+    var cut = ls.filter(function (l) { return !END.test(l.trim()); }).length;
+    return cut / ls.length > 0.4;
+  }
+  quill.root.addEventListener('paste', function (ev) {
+    var cd = ev.clipboardData;
+    if (!cd) return;
+    var html = cd.getData('text/html');
+    var text = cd.getData('text/plain');
+    // Si viene con formato (Word, Google Docs, otra página web) lo dejamos a Quill.
+    if ((html && !/<br\s*\/?>\s*<br|^\s*$/i.test(html) && /<(p|h\d|li)[\s>]/i.test(html)) || !text || !looksWrapped(text)) return;
+    ev.preventDefault();
+    ev.stopPropagation();
+    var range = quill.getSelection(true);
+    if (range.length) quill.deleteText(range.index, range.length, 'user');
+    quill.clipboard.dangerouslyPasteHTML(range.index, reflowText(text), 'user');
+  }, true);
+  // Botón "Unir renglones": arregla texto que ya se pegó así.
+  function reflowSelection() {
+    var range = quill.getSelection(true);
+    var r = range && range.length ? range : { index: 0, length: quill.getLength() };
+    var text = quill.getText(r.index, r.length);
+    if (!text.trim()) return;
+    if (!range.length && !confirm('No seleccionaste texto. ¿Unir los renglones de todo el artículo? Se quitarán los formatos (subtítulos, negritas).')) return;
+    quill.deleteText(r.index, r.length, 'user');
+    quill.clipboard.dangerouslyPasteHTML(r.index, reflowText(text), 'user');
+  }
 
   if (input.value) {
     quill.clipboard.dangerouslyPasteHTML(input.value, 'silent');

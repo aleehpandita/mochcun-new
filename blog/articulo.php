@@ -77,22 +77,33 @@ page_start($page);
 <?php if ($preview): ?>
 <div style="background:#FFF4CC;color:#5C4400;padding:12px 16px;text-align:center;font-weight:700">Vista previa: este artículo <?= $post['status'] === 'publicado' ? 'está programado y aún no es público' : 'es un borrador y no es público' ?>. <a href="/admin/articulo.php?id=<?= (int) $post['id'] ?>">Volver a editar</a></div>
 <?php endif; ?>
+<?php
+$crumbsHtml = '<nav aria-label="Migas de pan"><ol class="crumbs"><li><a href="/">Inicio</a></li><li><a href="/blog/">Blog</a></li><li><a href="/blog/categoria/' . e($cat) . '/">' . e(category_name($cat)) . '</a></li></ol></nav>';
+$metaHtml = '<p class="post-hero-meta"><time datetime="' . e(date('Y-m-d', strtotime((string) $post['published_at']))) . '">' . e(fecha_es((string) $post['published_at'])) . '</time> · ' . reading_minutes((string) $post['content']) . ' min de lectura</p>';
+?>
+<?php if ($cover): ?>
+<section class="post-hero">
+  <div class="post-hero-text">
+    <img class="hero-mark" src="/assets/img/marca.svg" alt="" width="1057" height="398" aria-hidden="true">
+    <div class="post-hero-inner">
+      <?= $crumbsHtml ?>
+      <h1><?= e($post['title']) ?></h1>
+      <?= $metaHtml ?>
+    </div>
+  </div>
+  <div class="post-hero-photo">
+    <img src="<?= e($cover['large']) ?>" srcset="<?= e($cover['medium']) ?> 800w, <?= e($cover['large']) ?> 1600w" sizes="(max-width: 1060px) 100vw, 50vw" alt="<?= e($post['cover_alt'] ?: $post['title']) ?>" width="1600" height="900" fetchpriority="high">
+  </div>
+</section>
+<?php else: ?>
 <section class="page-hero">
   <img class="page-hero-mark" src="/assets/img/marca.svg" alt="" width="1057" height="398" aria-hidden="true">
   <div class="wrap">
-    <nav aria-label="Migas de pan"><ol class="crumbs">
-      <li><a href="/">Inicio</a></li>
-      <li><a href="/blog/">Blog</a></li>
-      <li><a href="/blog/categoria/<?= e($cat) ?>/"><?= e(category_name($cat)) ?></a></li>
-    </ol></nav>
+    <?= $crumbsHtml ?>
     <h1><?= e($post['title']) ?></h1>
-    <p style="font-size:15px;color:#BDBDBD"><time datetime="<?= e(date('Y-m-d', strtotime((string) $post['published_at']))) ?>"><?= e(fecha_es((string) $post['published_at'])) ?></time> · <?= reading_minutes((string) $post['content']) ?> min de lectura</p>
+    <?= $metaHtml ?>
   </div>
 </section>
-<?php if ($cover): ?>
-<div class="wrap article-cover">
-  <img src="<?= e($cover['large']) ?>" srcset="<?= e($cover['medium']) ?> 800w, <?= e($cover['large']) ?> 1600w" sizes="(max-width: 1080px) 100vw, 1080px" alt="<?= e($post['cover_alt'] ?: $post['title']) ?>" width="1600" height="900" fetchpriority="high">
-</div>
 <?php endif; ?>
 <article class="section" style="padding-top:56px">
   <div class="wrap">
